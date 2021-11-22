@@ -1,4 +1,4 @@
-package com.springboot.crud;
+package com.springboot.crud.user;
 
 import com.springboot.crud.user.User;
 import org.junit.jupiter.api.Test;
@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class TestUser {
     @Test
     public void testGetSetId(){
-        long id = 1;
+        int id = 1;
         User user = new User();
         user.setId(id);
         assertEquals(user.getId(), id);
