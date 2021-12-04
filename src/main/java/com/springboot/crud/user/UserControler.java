@@ -34,7 +34,7 @@ public class UserControler {
     }
 
     @RequestMapping(value ="/read/{id}", method = RequestMethod.GET)
-    public ResponseEntity<User> showUpdateForm(@PathVariable("id") int id, Model model) {
+    public ResponseEntity<User> showUser(@PathVariable("id") int id, Model model) {
         User user = userRepository.findById(id)
                 .orElse(null);;
         if (user != null) {

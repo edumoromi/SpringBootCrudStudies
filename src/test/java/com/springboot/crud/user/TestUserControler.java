@@ -30,12 +30,16 @@ public class TestUserControler {
 
     @InjectMocks
     UserControler userControler;
+
     @Mock
     UserRepository userRepository ;
+
     @Mock
     Model model;
-    User user = new User();
-    List<User> users;
+
+    @Mock
+    User user;
+
     @BeforeEach
     public void init() {
         user.setName("Test");
@@ -53,27 +57,38 @@ public class TestUserControler {
 
     @Test
     public void testAddUser() {
-        when(userControler.addUser(user, null, null)).thenReturn(ResponseEntity.ok(user));
-        //userRepository.save(user);
-        //User usertest = userRepository.findById(user.getId())
-        //        .orElse(null);
+        //
+        userControler.addUser(user,null,model);
+        verify(userRepository, times(1)).save(user);
     }
+    @Test
+    public void testAddUserReturn() {when(userControler.addUser(user, null, null)).thenReturn(ResponseEntity.ok(user));}
+
+    @Test
+    public void testshowUser(){
+        when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
+        userControler.showUser(user.getId(),model);
+        verify(userRepository, times(1)).findById(user.getId());
+    }
+
     @Ignore
     public void testshowUserList(){
+        when(userRepository.findAll()).thenReturn(any());
         userControler.showUserList(model);
         verify(userRepository, times(1)).findAll();
     }
 
     @Test
     public void testupdateUser(){
-        when(userRepository.findById(1)).thenReturn(Optional.of(user));
+        when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
         userControler.updateUser(user.getId(),user,null,null);
         verify(userRepository, times(1)).save(user);
+
     }
 
     @Test
     public void testdeleteUser(){
-        when(userRepository.findById(1)).thenReturn(Optional.of(user));
+        when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
         userControler.deleteUser(user.getId(),null);
         verify(userRepository, times(1)).delete(user);
     }
